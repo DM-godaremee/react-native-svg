@@ -18,9 +18,9 @@
 static CGFloat idealFlatness = (CGFloat).01;
 
 /**
- * returns the distance between two points
+ * returns the distanceSvg between two points
  */
-CGFloat distance(CGPoint p1, CGPoint p2)
+CGFloat distanceSvg(CGPoint p1, CGPoint p2)
 {
     CGFloat dx = p2.x - p1.x;
     CGFloat dy = p2.y - p1.y;
@@ -88,7 +88,7 @@ void subdivideBezierAtT(const CGPoint bez[4], CGPoint bez1[4], CGPoint bez2[4], 
 
 - (void)addLine:(CGPoint *)last next:(const CGPoint *)next {
     NSArray *line = @[[NSValue valueWithCGPoint:*last], [NSValue valueWithCGPoint:*next]];
-    _pathLength += distance(*last, *next);
+    _pathLength += distanceSvg(*last, *next);
     [_lengths addObject:[NSNumber numberWithDouble:_pathLength]];
     [_lines addObject:line];
     *last = *next;
@@ -153,10 +153,10 @@ void subdivideBezierAtT(const CGPoint bez[4], CGPoint bez1[4], CGPoint bez2[4], 
                     CGPoint ctrl2 = bez[2];
                     CGPoint next = bez[3];
                     CGFloat polyLen =
-                        distance(last, ctrl1) +
-                        distance(ctrl1, ctrl2) +
-                        distance(ctrl2, next);
-                    CGFloat chordLen = distance(last, next);
+                        distanceSvg(last, ctrl1) +
+                        distanceSvg(ctrl1, ctrl2) +
+                        distanceSvg(ctrl2, next);
+                    CGFloat chordLen = distanceSvg(last, next);
                     CGFloat error = polyLen - chordLen;
 
                     // if the error is less than our accepted level of error
